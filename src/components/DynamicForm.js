@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   TextField,
   Button,
@@ -12,19 +12,17 @@ import {
   Select,
   MenuItem,
   Input,
-  Typography
-} from '@mui/material';
-
+  Typography,
+} from "@mui/material";
 
 const DynamicForm = () => {
   const [formData, setFormData] = useState([]);
-  const [name, setName] = useState('');
-  const [date, setDate] = useState('');
-  const [bsb, setBsb] = useState('');
-  const [accountNumber, setAccountNumber] = useState('');
-  const [accountName, setAccountName] = useState('');
+  const [name, setName] = useState("");
+  const [date, setDate] = useState("");
+  const [bsb, setBsb] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountName, setAccountName] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
-  
 
   const handleChange = (index, field, value) => {
     const updatedFormData = [...formData];
@@ -33,7 +31,7 @@ const DynamicForm = () => {
   };
 
   const addRow = () => {
-    setFormData([...formData, { row: '', col: '', value: '' }]);
+    setFormData([...formData, { row: "", col: "", value: "" }]);
   };
 
   const removeRow = (index) => {
@@ -49,33 +47,32 @@ const DynamicForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // FORM SUBMISSION HERE, API USAGE?
-    console.log('Form Data:', formData);
-    console.log('Name:', name);
-    console.log('Date:', date);
-    console.log('BSB:', bsb);
-    console.log('Account Number:', accountNumber);
-    console.log('Account Name:', accountName);
-    console.log('Selected Files:', selectedFiles);
-    
+    console.log("Form Data:", formData);
+    console.log("Name:", name);
+    console.log("Date:", date);
+    console.log("BSB:", bsb);
+    console.log("Account Number:", accountNumber);
+    console.log("Account Name:", accountName);
+    console.log("Selected Files:", selectedFiles);
   };
 
   const handleNumericInput = (e, setterFunction) => {
     const value = e.target.value;
     const isNumeric = /^[0-9]*$/.test(value);
-    if (isNumeric || value === '') {
+    if (isNumeric || value === "") {
       setterFunction(value);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{ marginBottom: '20px', marginTop: '20px'}}>
+      <div style={{ marginBottom: "20px", marginTop: "20px" }}>
         <TextField
           label="Name"
           variant="outlined"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          style={{ marginRight: '10px' }}
+          style={{ marginRight: "10px" }}
         />
         <TextField
           label=""
@@ -83,9 +80,12 @@ const DynamicForm = () => {
           variant="outlined"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-  />
+        />
+        <div
+          style={{ height: "1px", backgroundColor: "#ccc", margin: "20px 0" }}
+        ></div>
       </div>
-      <TableContainer component={Paper} style={{ marginBottom: '10px' }}>
+      <TableContainer component={Paper} style={{ marginBottom: "10px" }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -102,7 +102,9 @@ const DynamicForm = () => {
                   <Select
                     variant="outlined"
                     value={item.value}
-                    onChange={(e) => handleChange(index, 'value', e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "value", e.target.value)
+                    }
                   >
                     <MenuItem value="Option 1">Option 1</MenuItem>
                     <MenuItem value="Option 2">Option 2</MenuItem>
@@ -113,14 +115,14 @@ const DynamicForm = () => {
                   <TextField
                     variant="outlined"
                     value={item.row}
-                    onChange={(e) => handleChange(index, 'row', e.target.value)}
+                    onChange={(e) => handleChange(index, "row", e.target.value)}
                   />
                 </TableCell>
                 <TableCell>
                   <TextField
                     variant="outlined"
                     value={item.col}
-                    onChange={(e) => handleChange(index, 'col', e.target.value)}
+                    onChange={(e) => handleChange(index, "col", e.target.value)}
                   />
                 </TableCell>
                 <TableCell>
@@ -137,24 +139,31 @@ const DynamicForm = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button variant="contained" color="primary" onClick={addRow} style={{ marginLeft: '10px'}}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={addRow}
+        style={{ marginLeft: "10px" }}
+      >
         Add Row
       </Button>
-      <div style={{ height: '1px', backgroundColor: '#ccc', margin: '20px 0' }}></div>
-      <div style={{ marginTop: '20px' }}>
-      <TextField
+      <div
+        style={{ height: "1px", backgroundColor: "#ccc", margin: "20px 0" }}
+      ></div>
+      <div style={{ marginTop: "20px" }}>
+        <TextField
           label="BSB"
           variant="outlined"
           value={bsb}
           onChange={(e) => handleNumericInput(e, setBsb)}
-          style={{ marginRight: '10px', marginLeft: '10px' }}
+          style={{ marginRight: "10px", marginLeft: "10px" }}
         />
         <TextField
           label="Account Number"
           variant="outlined"
           value={accountNumber}
           onChange={(e) => handleNumericInput(e, setAccountNumber)}
-          style={{ marginRight: '10px' }}
+          style={{ marginRight: "10px" }}
         />
         <TextField
           label="Account Name"
@@ -163,35 +172,59 @@ const DynamicForm = () => {
           onChange={(e) => setAccountName(e.target.value)}
         />
       </div>
-      <div style={{ height: '1px', backgroundColor: '#ccc', margin: '20px 0' }}></div>
+      <div
+        style={{ height: "1px", backgroundColor: "#ccc", margin: "20px 0" }}
+      ></div>
       <div>
-          <Input
-            type="file"
-            onChange={handleFileChange}
-            style={{ display: 'none' }}
-            id="fileInput"
-            multiple
-          />
-          <label htmlFor="fileInput">
-            <Button variant="contained" component="span" style={{ marginTop: '10px', marginLeft: '10px' }}>
-              Upload Files
-            </Button>
-          </label>
-          <Typography variant="body2" color="textSecondary" style={{ marginTop: '5px', marginLeft: '10px' }}>
-            {selectedFiles.length > 0
-              ? selectedFiles.map((file, index) => (
-                  <div key={index}>{file.name}</div>
-                ))
-              : 'No files selected'}
-          </Typography>
-          <Typography variant="body1" color="textSecondary" style={{ marginTop: '5px', marginLeft: '10px', fontStyle: 'italic'}}>
-          Add invoices/receipts here if they are images, or PDFs to the email. If GST was charged on your expense, we strongly prefer the tax invoice (with the supplier’s ABN and GST charged) so we can claim the GST credits (effectively 9.09% off the purchase price!)
-          </Typography>
-        </div>
-        <div style={{ height: '1px', backgroundColor: '#ccc', margin: '20px 0' }}></div>
-        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', marginLeft: '10px' }}>
-          Submit
-        </Button>
+        <Input
+          type="file"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+          id="fileInput"
+          multiple
+        />
+        <label htmlFor="fileInput">
+          <Button
+            variant="contained"
+            component="span"
+            style={{ marginTop: "10px", marginLeft: "10px" }}
+          >
+            Upload Files
+          </Button>
+        </label>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          style={{ marginTop: "5px", marginLeft: "10px" }}
+        >
+          {selectedFiles.length > 0
+            ? selectedFiles.map((file, index) => (
+                <div key={index}>{file.name}</div>
+              ))
+            : "No files selected"}
+        </Typography>
+        <Typography
+          variant="body1"
+          color="textSecondary"
+          style={{ marginTop: "5px", marginLeft: "10px", fontStyle: "italic" }}
+        >
+          Add invoices/receipts here if they are images, or PDFs to the email.
+          If GST was charged on your expense, we strongly prefer the tax invoice
+          (with the supplier’s ABN and GST charged) so we can claim the GST
+          credits (effectively 9.09% off the purchase price!)
+        </Typography>
+      </div>
+      <div
+        style={{ height: "1px", backgroundColor: "#ccc", margin: "20px 0" }}
+      ></div>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        style={{ marginTop: "10px", marginLeft: "10px" }}
+      >
+        Submit
+      </Button>
     </form>
   );
 };
