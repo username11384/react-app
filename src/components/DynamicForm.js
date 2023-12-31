@@ -2,21 +2,39 @@ import React, { useState } from 'react';
 import {
   TextField,
   Button,
-  Grid,
   Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Select,
+  MenuItem,
+  Input,
+  Typography
 } from '@mui/material';
 
+
 const DynamicForm = () => {
-  const [formData, setFormData] = useState([{ row: 1, col: 1, value: '' }]);
+  const [formData, setFormData] = useState([]);
+  const [name, setName] = useState('');
+  const [date, setDate] = useState('');
+  const [bsb, setBsb] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [accountName, setAccountName] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   const handleChange = (index, field, value) => {
     const updatedFormData = [...formData];
     updatedFormData[index][field] = value;
     setFormData(updatedFormData);
+    updateTotalAmount(updatedFormData);
   };
 
   const addRow = () => {
-    setFormData([...formData, { row: formData.length + 1, col: 1, value: '' }]);
+    setFormData([...formData, { row: '', col: '', value: '' }]);
   };
 
   const removeRow = (index) => {
@@ -24,59 +42,154 @@ const DynamicForm = () => {
     setFormData(updatedFormData);
   };
 
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    setSelectedFiles(files);
+  };
+
+  const updateTotalAmount = (updatedFormData) => {
+    const total = updatedFormData.reduce((sum, item) => sum + parseFloat(item.value || 0), 0);
+    setTotalAmount(total);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission logic here
+    // FORM SUBMISSION HERE, API USAGE?
     console.log('Form Data:', formData);
+    console.log('Name:', name);
+    console.log('Date:', date);
+    console.log('BSB:', bsb);
+    console.log('Account Number:', accountNumber);
+    console.log('Account Name:', accountName);
+    console.log('Selected Files:', selectedFiles);
+    console.log('Total Amount:', totalAmount);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {formData.map((item, index) => (
-        <Paper key={index} elevation={3} style={{ padding: '15px', marginBottom: '10px' }}>
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <TextField
-                label="Item"
-                variant="outlined"
-                value={item.row}
-                onChange={(e) => handleChange(index, 'row', e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                label="Quantity"
-                variant="outlined"
-                value={item.col}
-                onChange={(e) => handleChange(index, 'col', e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={4}>
-              <TextField
-                label="Price"
-                variant="outlined"
-                value={item.value}
-                onChange={(e) => handleChange(index, 'value', e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => removeRow(index)}
-              >
-                Remove
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
-      ))}
-      <Button variant="contained" color="primary" onClick={addRow}>
+      <div style={{ marginBottom: '20px', marginTop: '20px'}}>
+        <TextField
+          label="Name"
+          variant="outlined"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{ marginRight: '10px' }}
+        />
+        <TextField
+          label=""
+          type="date"
+          variant="outlined"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+  />
+      </div>
+      <TableContainer component={Paper} style={{ marginBottom: '10px' }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Ministry</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Value</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {formData.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <Select
+                    variant="outlined"
+                    value={item.value}
+                    onChange={(e) => handleChange(index, 'value', e.target.value)}
+                  >
+                    <MenuItem value="Option 1">Option 1</MenuItem>
+                    <MenuItem value="Option 2">Option 2</MenuItem>
+                    <MenuItem value="Option 3">Option 3</MenuItem>
+                  </Select>
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    variant="outlined"
+                    value={item.row}
+                    onChange={(e) => handleChange(index, 'row', e.target.value)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    variant="outlined"
+                    value={item.col}
+                    onChange={(e) => handleChange(index, 'col', e.target.value)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => removeRow(index)}
+                  >
+                    Remove
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Button variant="contained" color="primary" onClick={addRow} style={{ marginLeft: '10px'}}>
         Add Row
       </Button>
-      <Button type="submit" variant="contained" color="primary" style={{ marginLeft: '10px' }}>
-        Submit
-      </Button>
+      <div style={{ height: '1px', backgroundColor: '#ccc', margin: '20px 0' }}></div>
+      <div style={{ marginTop: '20px' }}>
+        <TextField
+          label="BSB"
+          variant="outlined"
+          value={bsb}
+          onChange={(e) => setBsb(e.target.value)}
+          style={{ marginRight: '10px', marginLeft: '10px' }}
+        />
+        <TextField
+          label="Account Number"
+          variant="outlined"
+          value={accountNumber}
+          onChange={(e) => setAccountNumber(e.target.value)}
+          style={{ marginRight: '10px' }}
+        />
+        <TextField
+          label="Account Name"
+          variant="outlined"
+          value={accountName}
+          onChange={(e) => setAccountName(e.target.value)}
+        />
+      </div>
+      <div style={{ height: '1px', backgroundColor: '#ccc', margin: '20px 0' }}></div>
+      <div>
+          <Input
+            type="file"
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+            id="fileInput"
+            multiple
+          />
+          <label htmlFor="fileInput">
+            <Button variant="contained" component="span" style={{ marginTop: '10px', marginLeft: '10px' }}>
+              Upload Files
+            </Button>
+          </label>
+          <Typography variant="body2" color="textSecondary" style={{ marginTop: '5px' }}>
+            {selectedFiles.length > 0
+              ? selectedFiles.map((file, index) => (
+                  <div key={index}>{file.name}</div>
+                ))
+              : 'No files selected'}
+          </Typography>
+          <Typography variant="body1" color="textSecondary" style={{ marginTop: '5px', marginLeft: '10px', fontStyle: 'italic'}}>
+          Add invoices/receipts here if they are images, or PDFs to the email. If GST was charged on your expense, we strongly prefer the tax invoice (with the supplier’s ABN and GST charged) so we can claim the GST credits (effectively 9.09% off the purchase price!)
+          </Typography>
+        </div>
+        <div style={{ height: '1px', backgroundColor: '#ccc', margin: '20px 0' }}></div>
+        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px' }}>
+          Submit
+        </Button>
     </form>
   );
 };
