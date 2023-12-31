@@ -24,13 +24,12 @@ const DynamicForm = () => {
   const [accountNumber, setAccountNumber] = useState('');
   const [accountName, setAccountName] = useState('');
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [totalAmount, setTotalAmount] = useState(0);
+  
 
   const handleChange = (index, field, value) => {
     const updatedFormData = [...formData];
     updatedFormData[index][field] = value;
     setFormData(updatedFormData);
-    updateTotalAmount(updatedFormData);
   };
 
   const addRow = () => {
@@ -47,11 +46,6 @@ const DynamicForm = () => {
     setSelectedFiles(files);
   };
 
-  const updateTotalAmount = (updatedFormData) => {
-    const total = updatedFormData.reduce((sum, item) => sum + parseFloat(item.value || 0), 0);
-    setTotalAmount(total);
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     // FORM SUBMISSION HERE, API USAGE?
@@ -62,7 +56,7 @@ const DynamicForm = () => {
     console.log('Account Number:', accountNumber);
     console.log('Account Name:', accountName);
     console.log('Selected Files:', selectedFiles);
-    console.log('Total Amount:', totalAmount);
+    
   };
 
   return (
@@ -187,7 +181,7 @@ const DynamicForm = () => {
           </Typography>
         </div>
         <div style={{ height: '1px', backgroundColor: '#ccc', margin: '20px 0' }}></div>
-        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px' }}>
+        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px', marginLeft: '10px' }}>
           Submit
         </Button>
     </form>
