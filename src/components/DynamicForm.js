@@ -59,6 +59,14 @@ const DynamicForm = () => {
     
   };
 
+  const handleNumericInput = (e, setterFunction) => {
+    const value = e.target.value;
+    const isNumeric = /^[0-9]*$/.test(value);
+    if (isNumeric || value === '') {
+      setterFunction(value);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div style={{ marginBottom: '20px', marginTop: '20px'}}>
@@ -134,18 +142,18 @@ const DynamicForm = () => {
       </Button>
       <div style={{ height: '1px', backgroundColor: '#ccc', margin: '20px 0' }}></div>
       <div style={{ marginTop: '20px' }}>
-        <TextField
+      <TextField
           label="BSB"
           variant="outlined"
           value={bsb}
-          onChange={(e) => setBsb(e.target.value)}
+          onChange={(e) => handleNumericInput(e, setBsb)}
           style={{ marginRight: '10px', marginLeft: '10px' }}
         />
         <TextField
           label="Account Number"
           variant="outlined"
           value={accountNumber}
-          onChange={(e) => setAccountNumber(e.target.value)}
+          onChange={(e) => handleNumericInput(e, setAccountNumber)}
           style={{ marginRight: '10px' }}
         />
         <TextField
@@ -169,7 +177,7 @@ const DynamicForm = () => {
               Upload Files
             </Button>
           </label>
-          <Typography variant="body2" color="textSecondary" style={{ marginTop: '5px' }}>
+          <Typography variant="body2" color="textSecondary" style={{ marginTop: '5px', marginLeft: '10px' }}>
             {selectedFiles.length > 0
               ? selectedFiles.map((file, index) => (
                   <div key={index}>{file.name}</div>
